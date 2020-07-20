@@ -1,0 +1,217 @@
+using System;
+using System.Collections.Generic;
+using System.Text;
+
+namespace StudentDB
+{
+    class Student_Course
+    {
+        string fname;
+        string lname;
+        string email;
+        string coursename;
+        int courseID = 0;
+        bool exit = true;
+        int id = 99;
+        int[,] sc = new int[100, 2];
+        int row = 0;
+        int columns = 0;
+        int counter;
+
+        public List<Student> s1 = new List<Student>();
+        public List<Courses> c1 = new List<Courses>();
+
+        public void _addinfo()
+        {
+            while (exit == true)
+            {
+                AddInfromation();
+            }
+
+        }
+
+        public void showallinfo()
+        {
+            Console.WriteLine();
+            AllInfo();
+
+        }
+
+        void GetStudentInformation()
+        {
+            Console.WriteLine();
+            Console.WriteLine("Enter following details:");
+
+            Console.WriteLine();
+            Console.Write("First Name: ");
+            fname = Console.ReadLine();
+            Console.Write("Last Name: ");
+            lname = Console.ReadLine();
+            Console.Write("Email ID: ");
+            email = Console.ReadLine();
+            id = incrementId();
+            Console.WriteLine("Student ID: " + id);
+
+            s1.Add(new Student(id, fname, lname, email));
+
+        }
+        int incrementId()
+        {
+
+            id += 1;
+            return id;
+        }
+        int incrementCourseId()
+        {
+
+            courseID += 1;
+            return courseID;
+        }
+
+        void GetCourseInformation()
+        {
+            Console.WriteLine();
+            Console.WriteLine("Enter following Infromation for course.");
+            Console.Write("Course Name: ");
+            coursename = Console.ReadLine();
+            courseID = incrementCourseId();
+            Console.WriteLine("Course ID: " + courseID);
+
+            c1.Add(new Courses(courseID, coursename));
+        }
+
+        void AddInfromation()
+        {
+            int i;
+            Console.WriteLine();
+            Console.Write("1. Enter student Information   2. Enter course Infromation    3. Add Student to course  4. Exit  : ");
+            i = Convert.ToInt32(Console.ReadLine());
+
+            switch (i)
+            {
+                case 1:
+                    GetStudentInformation();
+                    break;
+                case 2:
+                    GetCourseInformation();
+                    break;
+                case 3:
+                    Console.WriteLine();
+                    Add_StudentToCourse();
+                    break;
+                case 4:
+                    exit = false;
+                    break;
+
+                default:
+                    Console.WriteLine("Opps! Invalid option, Try again");
+                    break;
+            }
+        }
+
+        void AllInfo()
+        {
+            foreach (var item in s1)
+            {
+                Console.WriteLine($"Student ID: {item.getStudentID()}   First Name: {item.getfirstname()}  Last Name: {item.getlastname()}   Email id: {item.getEmailid()}");
+
+            }
+            Console.WriteLine();
+            foreach (var item in c1)
+            {
+                Console.WriteLine($"Course ID: {item.getcourseID()}   Course Name: {item.getCourseName()}");
+
+            }
+
+        }
+
+        public void Add_StudentToCourse()
+        {
+            int sid;
+            int cid;
+
+
+            Console.WriteLine("Enroll yourself for available courses.");
+            foreach (var item in c1)
+            {
+                Console.WriteLine($"Course ID: {item.getcourseID()}   Course Name: {item.getCourseName()}");
+
+            }
+            if ((s1.Count == 0) || (c1.Count == 0))
+            {
+                Console.WriteLine("Opps, You can't enroll for courses.");
+            }
+
+
+            else
+            {
+                
+                Console.WriteLine();
+                Console.Write("Enter your student ID to enroll for above courses: ");
+                sid = Convert.ToInt32(Console.ReadLine());
+
+                foreach (var item in s1)
+                {
+                    if (item.getStudentID() == sid)
+                    {
+                        string fullname;
+                        sc[row, columns] = sid;
+                        columns++;
+
+
+                        Console.WriteLine("Welcome " + item.getfirstname() + " " + item.getlastname());
+                        fullname = (item.getfirstname() + " " + item.getlastname());
+
+
+                        Console.WriteLine();
+                        Console.Write("Now enter Course ID to enroll: ");
+                        cid = Convert.ToInt32(Console.ReadLine());
+
+
+                        foreach (var i in c1)
+                        {
+                            
+
+                            if (i.getcourseID() == cid)
+                            {
+
+                                sc[row, columns] = cid;
+                                columns = 0; row++; counter++;
+                            }
+                            else
+                            {
+                                Console.WriteLine("Opps,You have entered wrong Course ID, Try again!");
+                            }
+
+                        }
+                        Console.WriteLine($"{fullname} has successfully enrolled for courseID {cid}  ");
+
+                    }
+                    else
+                    {
+                        Console.WriteLine("Opps,You have entered Invalid Student ID, Try again!");
+                    }
+
+                }
+            }
+
+
+
+
+        }
+
+        public void show_student_course()
+        {
+            for (int i = 0; i < counter; i++)
+            {
+
+                int j = 0;
+                Console.Write($"Student ID: {sc[i, j]}  ");
+                j++;
+                Console.WriteLine($"Course ID: {sc[i, j]}");
+
+            }
+        }
+    }
+}
+

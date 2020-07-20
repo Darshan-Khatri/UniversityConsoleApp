@@ -1,0 +1,196 @@
+using System;
+using System.Collections.Generic;
+
+namespace StudentDB
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            string fname;
+            string lname;
+            string email;
+            string coursename;
+            int courseID = 1;
+            bool exit = true;
+            int id = 99;
+
+            Console.WriteLine("Welcome AYM");
+
+            List<Student> s1 = new List<Student>();
+            List<Courses> c1 = new List<Courses>();
+
+            while (exit == true)
+            {
+
+                AddInfromation();
+            }
+
+            Console.WriteLine();
+            AllInfo();
+
+
+
+
+            void GetStudentInformation()
+            {
+                Console.WriteLine("Enter following details.");
+                // Console.WriteLine("1. First Name   2. Last Name   3. Email ID   : ");
+                //Console.WriteLine();
+
+                Console.Write("First Name: ");
+                fname = Console.ReadLine();
+                Console.Write("Last Name: ");
+                lname = Console.ReadLine();
+                Console.Write("Email ID: ");
+                email = Console.ReadLine();
+                id = incrementId();
+
+                s1.Add(new Student(id, fname, lname, email));
+
+            }
+
+
+            int incrementId()
+            {
+
+                id += 1;
+                return id;
+            } 
+            int incrementCourseId()
+            {
+
+                courseID += 1;
+                return courseID;
+            }
+
+            void GetCourseInformation()
+            {
+                Console.WriteLine("Enter following Infromation for course.");
+                Console.Write("Course Name: ");
+                coursename = Console.ReadLine();
+                courseID = incrementCourseId();
+
+                c1.Add(new Courses(courseID, coursename));
+            }
+
+            void AddInfromation()
+            {
+                int i;
+                Console.WriteLine();
+                Console.Write("1. Enter student Information   2. Enter course Infromation    3. Add Student to course  4. Exit  : ");
+                i = Convert.ToInt32(Console.ReadLine());
+
+                switch (i)
+                {
+                    case 1:
+                        GetStudentInformation();
+                        break;
+                    case 2:
+                        GetCourseInformation();
+                        break;
+                    case 3:
+                        //AddStudentCourse();
+                        break;
+                    case 4:
+                        exit = false;
+                        break;
+
+                    default:
+                        Console.WriteLine("Opps! Invalid option, Try again");
+                        break;
+                }
+            }
+
+            void AllInfo()
+            {
+                foreach (var item in s1)
+                {
+                    Console.WriteLine($"Student ID: {item.getStudentID()}   First Name: {item.getfirstname()}  Last Name: {item.getlastname()}   Email id:{item.getEmailid()}");
+                   
+                }
+                Console.WriteLine();
+                foreach (var item in c1)
+                {
+                    Console.WriteLine($"Course ID: {item.getcourseID()}   Course Name: {item.getCourseName()}");
+
+                }
+            }
+        }
+    }
+}
+
+
+using System;
+using System.Collections.Generic;
+using System.Text;
+
+namespace StudentDB
+{
+    class Student
+    {
+        protected int studentID ;
+        protected string firstname;
+        protected string lastname;
+        protected string emailAddress;
+
+        public Student(int _studentID, string _firstname, string _lastname, string _emailAddress = "xxx@yyy.com")
+        {
+            studentID = _studentID;
+            firstname = _firstname;
+            lastname = _lastname;
+            emailAddress = _emailAddress;
+        }
+
+        public string getfirstname()
+        {
+            return firstname;
+
+        }
+        public string getlastname()
+        {
+            return lastname;
+
+        }
+        public string getEmailid()
+        {
+            return emailAddress;
+
+        }
+
+        
+        public int getStudentID()
+        {
+            return studentID;
+        }
+    }
+}
+
+
+using System;
+using System.Collections.Generic;
+using System.Text;
+
+namespace StudentDB
+{
+    class Courses
+    {
+        protected int courseId;
+        protected string CourseName;
+
+        public Courses(int _courseId, string _CourseName)
+        {
+            courseId = _courseId;
+            CourseName = _CourseName;
+        }
+
+        public int getcourseID()
+        {
+            return courseId;
+        }
+        public string getCourseName()
+        {
+            return CourseName;
+        }
+    }
+}
